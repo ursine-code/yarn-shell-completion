@@ -6,12 +6,25 @@
 # Last updated: 2025-11-08
 
 _compadd() {
-    COMPREPLY=($(compgen -W "$1" -- "${COMP_WORDS[COMP_CWORD]}")); 
+    COMPREPLY=($(compgen -W "$1" -- "$cur")); 
 }
 
-_yarn_completion() {
-    # accounts for shell with ANSI escape codes for colors
-    _compadd "$(yarn help | sed -E 's/\x1b\[[0-9;]*m//g' | grep -E '^\s+yarn [a-z]' | awk '{print $2}' | sort -u)"
+_yarn_completion_main() {
+        local cur
+
+        cur="${COMP_WORDS[COMP_CWORD]}"
+
+        case "$cur" in
+            --*)
+                # long and short flags
+                _compadd "$(yarn help | sed 's/\[[0-9;]*m//g' | grep -oE '(\-[A-Z],|\-\-[a-zA-Z][a-zA-Z0-9-]+)' | tr -d ',' | sort -u)"
+                ;;
+            *)
+                # accounts for shell with ANSI escape codes for colors
+                _compadd "$(yarn help | sed -E 's/\x1b\[[0-9;]*m//g' | grep -E '^\s+yarn [a-z]' | awk '{print $2}' | sort -u)"
+                ;;
+            *)
+        esac
 }
 
-complete -F _yarn_completion yarn
+complete -F _yarn_completion_main yarn
