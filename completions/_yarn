@@ -12,7 +12,7 @@ if ! (( ${+functions[complete]} )); then
 fi
 
 if command -v brew &>/dev/null; then
-    local_bash_completion="$(brew --prefix)/etc/bash_completion.d/yarn"
+    local local_bash_completion="$(brew --prefix)/etc/bash_completion.d/yarn"
     if [[ -f "$local_bash_completion" ]]; then
         autoload -U +X bashcompinit && bashcompinit
         source "$local_bash_completion"
