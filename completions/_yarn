@@ -8,7 +8,7 @@
 #compdef yarn
 
 complete() {}
-source yarn-shell-completion.bash
+source yarn
 
 _compadd() { 
     compadd ${=1};
