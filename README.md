@@ -13,27 +13,25 @@ Bash and Zsh completion for Yarn 4 (Berry).
 ### Bash
 
 ```bash
-# Copy to bash completion directory
-sudo cp completions/yarn.bash /usr/share/bash-completion/completions/yarn
+# Add to ~/.bashrc or ~/.bash_profile
+if type brew &>/dev/null; then
+  HOMEBREW_PREFIX="$(brew --prefix)"
+  if [[ -r "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh" ]]; then
+    source "${HOMEBREW_PREFIX}/etc/profile.d/bash_completion.sh"
+  else
+    for COMPLETION in "${HOMEBREW_PREFIX}/etc/bash_completion.d/"*; do
+      [[ -r "$COMPLETION" ]] && source "$COMPLETION"
+    done
+  fi
+fi
 
-# Or for user-only install
-mkdir -p ~/.local/share/bash-completion/completions
-cp completions/yarn.bash ~/.local/share/bash-completion/completions/yarn
-
-# Then add to ~/.bashrc
-source ~/.local/share/bash-completion/completions/yarn
+# Then reload
+source ~/.bashrc
 ```
 
 ### Zsh
 
-```bash
-# Copy to zsh completion directory
-sudo cp completions/yarn.zsh /usr/share/zsh/site-functions/_yarn
-
-# Or for user-only install
-mkdir -p ~/.zsh/completions
-cp completions/yarn.zsh ~/.zsh/completions/_yarn
-
+```shell
 # Add to ~/.zshrc
 fpath=(~/.zsh/completions $fpath)
 autoload -U compinit && compinit
