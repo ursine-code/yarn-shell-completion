@@ -7,13 +7,29 @@
 
 #compdef yarn
 
-complete() {}
-source yarn
+if ! (( ${+functions[complete]} )); then
+    complete() { : ; }
+fi
+
+source ${0:A:h}/yarn || {
+    print -u2 "yarn completion: failed to source bash completion script"
+    return 1
+}
 
 _compadd() { 
-    compadd ${=1};
+    [[ -n "${compstate}" ]] && compadd -- ${=1}
 }
 
-_yarn() { 
-    _yarn_completion_main;
+_yarn() {
+    local -a COMP_WORDS COMPREPLY
+    local COMP_CWORD
+    
+    COMP_WORDS=("${words[@]}")
+    COMP_CWORD=$((CURRENT - 1))
+    
+    _yarn_completion_main
+    
+    (( ${#COMPREPLY[@]} )) && compadd -a COMPREPLY
 }
+
+[[ -v functions[compdef] ]] && compdef _yarn yarn
