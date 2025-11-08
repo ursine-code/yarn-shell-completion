@@ -1,8 +1,12 @@
+# Testing the Yarn Shell Completion Locally
+
+To test the Yarn shell completion scripts locally without installing them system-wide, you can follow these steps:
+
 1. Test the zsh completion directly from your repo:
 
 ```shell
 # In a clean zsh shell (zsh -f)
-cd /Users/minademian/code/cli-packages/yarn-shell-completion
+cd /path/to/yarn-shell-completion
 
 # Add completions dir to fpath
 fpath=($(pwd)/completions $fpath)
@@ -38,4 +42,5 @@ source completions/_yarn
 
 # Test again
 yarn <TAB>
+yarn --<TAB>
 ```
