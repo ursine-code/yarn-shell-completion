@@ -23,7 +23,6 @@ _yarn_completion_main() {
                 # accounts for shell with ANSI escape codes for colors
                 _compadd "$(yarn help | sed -E 's/\x1b\[[0-9;]*m//g' | grep -E '^\s+yarn [a-z]' | awk '{print $2}' | sort -u)"
                 ;;
-            *)
         esac
 }
 
