@@ -2,7 +2,7 @@
 # Author: Mina Demian
 # E-mail: mina@minademian.com
 # License: MIT
-# Version: 1.0.3
+# Version: 1.0.4
 # Last updated: 2025-11-08
 
 #compdef yarn
@@ -11,17 +11,13 @@ if ! (( ${+functions[complete]} )); then
     complete() { : ; }
 fi
 
-# Find bash completion via Homebrew's standard location
 if command -v brew &>/dev/null; then
-    local bash_completion="$(brew --prefix)/etc/bash_completion.d/yarn"
-    if [[ -f "$bash_completion" ]]; then
+    local_bash_completion="$(brew --prefix)/etc/bash_completion.d/yarn"
+    if [[ -f "$local_bash_completion" ]]; then
         autoload -U +X bashcompinit && bashcompinit
-        source "$bash_completion"
-    else
-        return 1
+        source "$local_bash_completion"
     fi
-else
-    return 1
+    unset local_bash_completion
 fi
 
 _compadd() { 
