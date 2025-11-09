@@ -2,22 +2,32 @@
 # Author: Mina Demian
 # E-mail: mina@minademian.com
 # License: MIT
-# Version: 1.0.4
-# Last updated: 2025-11-08
+# Version: 1.0.5
+# Last updated: 2025-11-09
 
 #compdef yarn
+
+LOG_KEY="yarn-shell-completion"
+ZSH_KEY="oh-my-zsh"
+
+[[ -t 1 ]] && echo "[$LOG_KEY] ℹ️  Sourcing Yarn completions for $ZSH_KEY"
 
 if ! (( ${+functions[complete]} )); then
     complete() { : ; }
 fi
 
 if command -v brew &>/dev/null; then
-    local local_bash_completion="$(brew --prefix)/etc/bash_completion.d/yarn"
+    local_bash_completion="$(brew --prefix)/etc/bash_completion.d/yarn"
+
     if [[ -f "$local_bash_completion" ]]; then
-        autoload -U +X bashcompinit && bashcompinit
-        source "$local_bash_completion"
+        if ! typeset -f bashcompinit >/dev/null; then
+            autoload -U +X bashcompinit && bashcompinit
+        fi
+        source "$local_bash_completion" >/dev/null || {
+        echo "[$LOG_KEY] ⚠️  Failed to source internal bash completion: $local_bash_completion" >&2
+        }
     fi
-    unset local_bash_completion
+    [[ -n "$local_bash_completion" ]] && unset local_bash_completion
 fi
 
 _compadd() { 
@@ -31,7 +41,11 @@ _yarn() {
     COMP_WORDS=("${words[@]}")
     COMP_CWORD=$((CURRENT - 1))
     
-    _yarn_completion_main
+    if typeset -f _yarn_completion_main >/dev/null; then
+        _yarn_completion_main
+    else
+        echo "[$LOG_KEY] ⚠️  _yarn_completion_main not defined; bash completion may not be loaded" >&2
+    fi
     
     (( ${#COMPREPLY[@]} )) && compadd -a COMPREPLY
 }
