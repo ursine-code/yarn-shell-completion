@@ -16,8 +16,10 @@ Shell completion for [Yarn 4+ (Berry)](https://yarnpkg.com/) - supports both Bas
 ```bash
 # Tap the Ursine Code repository
 brew tap minademian/ursine
+# Install from tap
+brew install yarn-shell-completion
 
-# Install via Homebrew
+# Install directly via Homebrew
 brew install minademian/ursine/yarn-shell-completion
 ```
 
