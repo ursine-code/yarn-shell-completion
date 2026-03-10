@@ -1,16 +1,15 @@
+#compdef yarn
 # Description: Zsh shell completion script for yarn
 # Author: Mina Demian
 # E-mail: mina@minademian.com
 # License: MIT
-# Version: 1.0.5
-# Last updated: 2025-11-09
-
-#compdef yarn
+# Version: 1.0.7
+# Last updated: 2026-03-10
 
 LOG_KEY="yarn-shell-completion"
 ZSH_KEY="oh-my-zsh"
 
-[[ -t 1 ]] && echo "[$LOG_KEY] ℹ️  Sourcing Yarn completions for $ZSH_KEY"
+[[ "$YARN_COMPLETION_DEBUG" == "1" ]] && echo "[$LOG_KEY] ℹ️  Sourcing Yarn completions for $ZSH_KEY"
 
 if ! (( ${+functions[complete]} )); then
     complete() { : ; }

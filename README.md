@@ -93,6 +93,20 @@ brew install bash-completion@2  # macOS
 apt-get install bash-completion  # Linux
 ```
 
+### Debug mode
+
+Enable verbose logging to diagnose completion issues:
+
+```bash
+export YARN_COMPLETION_DEBUG=1
+```
+
+Unset to disable:
+
+```bash
+unset YARN_COMPLETION_DEBUG
+```
+
 ### Check if completion is loaded
 
 **Zsh**
